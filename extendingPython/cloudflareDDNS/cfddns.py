@@ -74,7 +74,7 @@ def updateCloudflareContent(Token: str, DDNSType: str, DDNSHostName: str, DDNSCo
 
 def compareDDNSContent(NowContent: str, LastContent: str):
     """
-    :param NowContent:
+    :param NowContent: you can use getData()
     :param LastContent: you can use getCloudflareDomainNameContent()["result"]["content"]
     :return: True or False
     """
