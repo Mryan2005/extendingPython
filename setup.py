@@ -19,7 +19,6 @@ setup(
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
-        'Operating System :: All OS',
     ],
     license='Apache-2.0',
     python_requires='>=3.6',
