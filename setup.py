@@ -19,7 +19,7 @@ setup(
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
-        'License-Expression: Apache-2.0',
+        'License-Expression: MIT AND (Apache-2.0 OR BSD-2-clause)',
         'Operating System :: All OS',
     ],
     python_requires='>=3.6',
