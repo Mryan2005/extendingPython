@@ -13,7 +13,9 @@ setup(
     install_requires=[
         # 列出你的包依赖，例如：
         # 'requests>=2.25.1',
-        open('./requirements.txt').read().splitlines()
+        'setuptools~=68.2.0',
+        'pyhttpx~=2.10.12',
+        'requests~=2.32.3'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
