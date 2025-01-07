@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='extendingPython',
-    version='0.0.1',
+    version='0.0.2',
     author='Mryan2005',
     author_email='zhizhongyan@qq.com',
     description='A short description of the package',
