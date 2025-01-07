@@ -1,45 +1,59 @@
 import pymysql
+from dbutils.pooled_db import PooledDB
 
 
-class SQLConn:
-    def __init__(self, host, port, user, password, db):
-        """
-        这个函数用来连接数据库，由使用者传入数据库地址、用户名、密码、数据库名称 \n
-        :param host: str, 数据库地址 \n
-        :param user: str, 数据库用户名 \n
-        :param password: str, 数据库密码 \n
-        :param db: str, 数据库名称
-        """
+class DatabasePool:
+    def __init__(self, db, mincached=2, maxcached=50, maxshared=0, maxconnections=100, blocking=True, setsession=[],
+                 **config):
+        self.config = config
         self.db = db
-        self.password = password
-        self.user = user
-        self.host = host
-        self.port = port
-        self.conn = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.password, db=self.db)
+        self.pool = None
+        self.mincached = mincached
+        self.maxcached = maxcached
+        self.maxshared = maxshared
+        self.maxconnections = maxconnections
+        self.blocking = blocking
+        self.setsession = setsession
 
-    def runSelect(self, sql):
-        """
-        这个函数用来执行查询操作，由使用者传入sql语句，返回查询结果 \n
-        :param sql: str, sql语句 \n
-        :return: 查询结果，返回一个列表，每个元素是一个字典，表示一条记录
-        """
-        cur = self.conn.cursor()
-        cur.execute(sql)
-        sqlData = cur.fetchall()
-        cur.close()
-        self.conn.close()
-        self.conn = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.password, db=self.db)
-        return sqlData
+    def createPool(self):
+        self.pool = PooledDB(creator=pymysql, mincached=self.mincached, maxcached=self.maxcached,
+                             maxshared=self.maxshared,
+                             maxconnections=self.maxconnections, blocking=self.blocking, setsession=self.setsession,
+                             **self.config)
+        return self.pool
 
-    def runUpdate(self, sql):
-        """
-        这个函数用来执行更新操作，比如插入、删除、更新等 \n
-        :param sql: str, sql语句 \n
-        :return: bool值，表示是否更新成功
-        """
-        cur = self.conn.cursor()
+    def getConnection(self):
+        if self.pool is None:
+            self.createPool()
+        return self.pool.connection()
+
+    def execute(self, sql):
+        conn = self.getConnection()
+        cur = conn.cursor()
         cur.execute(sql)
+        data = cur.fetchall()
         cur.close()
-        self.conn.commit()
-        self.conn.close()
-        self.conn = pymysql.connect(host=self.host, port=self.port, user=self.user, passwd=self.password, db=self.db)
+        conn.close()
+        return data
+
+    def executeUpdate(self, sql):
+        conn = self.getConnection()
+        cur = conn.cursor()
+        cur.execute(sql)
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    def executeQuery(self, sql):
+        conn = self.getConnection()
+        cur = conn.cursor()
+        cur.execute(sql)
+        data = cur.fetchall()
+        cur.close()
+        conn.close()
+        return data
+
+    def close(self):
+        if self.pool is not None:
+            self.pool.close()
+            self.pool = None
