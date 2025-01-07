@@ -1,6 +1,6 @@
 import pyhttpx
 
-import Exceptions
+from . import Exceptions
 
 
 def getTheUserWhoStarTheRepo(owner: str, repo: str, page: int = -1, access_token: str = '', per_page: int = 100):
