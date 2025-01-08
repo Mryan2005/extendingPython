@@ -1,6 +1,6 @@
 import pyhttpx
 
-from . import Exceptions
+from extendingPython.GiteeAPI import GiteeAPIExceptions
 
 
 def getTheUserWhoStarTheRepo(owner: str, repo: str, page: int = -1, access_token: str = '', per_page: int = 100):
@@ -47,9 +47,9 @@ def getTheUserWhoStarTheRepo(owner: str, repo: str, page: int = -1, access_token
     res = session.get(url, params=params)
     res = res.json()
     if len(res) != 0 and res.get("message") == "Not Found Project":
-        raise Exceptions.NotFoundProject("The project is not found or your project is private")
+        raise GiteeAPIExceptions.NotFoundProject("The project is not found or your project is private")
     elif len(res) != 0 and res.get("message") == "401 Unauthorized: Access token does not exist":
-        raise Exceptions.AccessTokenNotExist("Access token does not exist")
+        raise GiteeAPIExceptions.AccessTokenNotExist("Access token does not exist")
     return res
 
 
@@ -98,9 +98,9 @@ def getTheUserWhoWatchTheRepo(owner: str, repo: str, page: int = -1, access_toke
     res = res.json()
     try:
         if res.get("message") == "Not Found Project":
-            raise Exceptions.NotFoundProject("The project is not found or your project is private")
+            raise GiteeAPIExceptions.NotFoundProject("The project is not found or your project is private")
         elif res.get("message") == "401 Unauthorized: Access token does not exist":
-            raise Exceptions.AccessTokenNotExist("Access token does not exist")
+            raise GiteeAPIExceptions.AccessTokenNotExist("Access token does not exist")
     except AttributeError:
         pass
     return res
@@ -151,9 +151,9 @@ def getTheMassageFromTheRepo(owner: str, repo: str, access_token: str = '', limi
     res = res.json()
     try:
         if res.get("message") == "Not Found Project":
-            raise Exceptions.NotFoundProject("The project is not found or your project is private")
+            raise GiteeAPIExceptions.NotFoundProject("The project is not found or your project is private")
         elif res.get("message") == "401 Unauthorized: Access token does not exist":
-            raise Exceptions.AccessTokenNotExist("Access token does not exist")
+            raise GiteeAPIExceptions.AccessTokenNotExist("Access token does not exist")
     except AttributeError:
         pass
     return res
