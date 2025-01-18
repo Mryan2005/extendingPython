@@ -13,7 +13,7 @@ setup(
     install_requires=[
         # 列出你的包依赖，例如：
         # 'requests>=2.25.1',
-        "setuptools==70.0.0",
+        "setuptools==70.3.0",
         'pyhttpx~=2.10.12',
         'requests~=2.32.3',
         'pymysql~=1.1.0'
