@@ -2,5 +2,5 @@ setuptools~=80.8.0
 pyhttpx~=2.10.12
 requests~=2.32.3
 pymysql~=1.1.0
-selenium~=4.27.1
+selenium~=4.34.2
 webdriver-manager
