@@ -16,7 +16,7 @@ setup(
         "setuptools==80.8.0",
         'pyhttpx~=2.10.12',
         'requests~=2.32.3',
-        'pymysql~=1.1.0'
+        'pymysql~=1.2.0'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
