@@ -15,7 +15,7 @@ setup(
         # 'requests>=2.25.1',
         "setuptools==80.8.0",
         'pyhttpx~=2.10.12',
-        'requests~=2.32.3',
+        'requests~=2.34.2',
         'pymysql~=1.1.0'
     ],
     classifiers=[
